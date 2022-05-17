@@ -15,84 +15,6 @@ namespace Tobie {
     let PY: number = 0;
     let Force: number = 10;
 
-    /**
-    *Read the value sensed by the right side of the infrared sensor.
-    */
-    //% blockId="Read_IR_Right" block="IR lichtsterkte rechts (0-1024)"
-    //% blockGap=5 weight=65
-    export function Read_IR_Right(): number {
-        basic.pause(100)
-        ADL_R = pins.analogReadPin(AnalogPin.P2)
-        pins.digitalWritePin(DigitalPin.P12, 1)
-        control.waitMicros(250)
-        ADH_R = pins.analogReadPin(AnalogPin.P2)
-        pins.digitalWritePin(DigitalPin.P12, 0)
-        if (pins.digitalReadPin(DigitalPin.P8) == 1) Read_RIR = ADH_R - ADL_R;
-        return (Read_RIR)
-    }
-
-    /**
-    *Read the value sensed by the left side of the infrared sensor.
-    */
-    //% blockId="Read_IR_Left" block="IR lichtsterkte links (0-1024)"
-    //% blockGap=15 weight=60
-    export function Read_IR_Left(): number {
-        basic.pause(100)
-        ADL_L = pins.analogReadPin(AnalogPin.P1)
-        pins.digitalWritePin(DigitalPin.P12, 1)
-        control.waitMicros(250)
-        ADH_L = pins.analogReadPin(AnalogPin.P1)
-        pins.digitalWritePin(DigitalPin.P12, 0)
-
-        Read_LIR = ADH_L - ADL_L;
-        return (Read_LIR)
-    }
-
-    /**
-    *Determine if there are obstacles on the right side.
-    *@param thresholdR ; eg: 512
-    */
-    //% blockId="IRRight" block="IR lichtsterkte rechts groter dan %thresholdR"
-    //% thresholdR.min=0 thresholdR.max=1023
-    //% blockGap=5 weight=58
-    export function IRRight(thresholdR: number = 512): boolean {
-        basic.pause(100)
-        ADL_R = pins.analogReadPin(AnalogPin.P2)
-        pins.digitalWritePin(DigitalPin.P12, 1)
-        control.waitMicros(250)
-        ADH_R = pins.analogReadPin(AnalogPin.P2)
-        pins.digitalWritePin(DigitalPin.P12, 0)
-
-        if (((ADH_R - ADL_R) > thresholdR) && (pins.digitalReadPin(DigitalPin.P8) == 1)) {
-            return (true)
-        } else {
-            return (false)
-        }
-    }
-
-    /**
-    *Determine if there are obstacles on the left side.
-    *@param thresholdL ; eg: 512
-    */
-    //% blockId="IRLeft" block="IR lichtsterkte links groter dan %thresholdL"
-    //% thresholdL.min=0 thresholdL.max=1023
-    //% blockGap=10 weight=57
-    export function IRLeft(thresholdL: number = 512): boolean {
-        basic.pause(100)
-        ADL_L = pins.analogReadPin(AnalogPin.P1)
-        pins.digitalWritePin(DigitalPin.P12, 1)
-        control.waitMicros(250)
-        ADH_L = 0
-        if (pins.digitalReadPin(DigitalPin.P8) == 1) {
-            ADH_L = pins.analogReadPin(AnalogPin.P1)
-            pins.digitalWritePin(DigitalPin.P12, 0)
-        }
-        if ((ADH_L - ADL_L) > thresholdL) {
-            return (true)
-        } else {
-            return (false)
-        }
-    }
 
     /**
     *Tobbie-II walks forward.
@@ -175,6 +97,85 @@ namespace Tobie {
             pins.digitalWritePin(DigitalPin.P16, 0)
             Motor_L = false
             Motor_R = false
+        }
+    }
+
+    /**
+    *Read the value sensed by the right infrared sensor.
+    */
+    //% blockId="Read_IR_Right" block="IR lichtsterkte rechts (0-1024)"
+    //% blockGap=15 weight=65
+    export function Read_IR_Right(): number {
+        basic.pause(100)
+        ADL_R = pins.analogReadPin(AnalogPin.P2)
+        pins.digitalWritePin(DigitalPin.P12, 1)
+        control.waitMicros(250)
+        ADH_R = pins.analogReadPin(AnalogPin.P2)
+        pins.digitalWritePin(DigitalPin.P12, 0)
+        if (pins.digitalReadPin(DigitalPin.P8) == 1) Read_RIR = ADH_R - ADL_R;
+        return (Read_RIR)
+    }
+
+    /**
+    *Read the value sensed by the left infrared sensor.
+    */
+    //% blockId="Read_IR_Left" block="IR lichtsterkte links (0-1024)"
+    //% blockGap=5 weight=60
+    export function Read_IR_Left(): number {
+        basic.pause(100)
+        ADL_L = pins.analogReadPin(AnalogPin.P1)
+        pins.digitalWritePin(DigitalPin.P12, 1)
+        control.waitMicros(250)
+        ADH_L = pins.analogReadPin(AnalogPin.P1)
+        pins.digitalWritePin(DigitalPin.P12, 0)
+
+        Read_LIR = ADH_L - ADL_L;
+        return (Read_LIR)
+    }
+
+    /**
+    *Determine if there are obstacles on the right side.
+    *@param thresholdR ; eg: 512
+    */
+    //% blockId="IRRight" block="IR lichtsterkte rechts groter dan %thresholdR"
+    //% thresholdR.min=0 thresholdR.max=1023
+    //% blockGap=5 weight=58
+    export function IRRight(thresholdR: number = 512): boolean {
+        basic.pause(100)
+        ADL_R = pins.analogReadPin(AnalogPin.P2)
+        pins.digitalWritePin(DigitalPin.P12, 1)
+        control.waitMicros(250)
+        ADH_R = pins.analogReadPin(AnalogPin.P2)
+        pins.digitalWritePin(DigitalPin.P12, 0)
+
+        if (((ADH_R - ADL_R) > thresholdR) && (pins.digitalReadPin(DigitalPin.P8) == 1)) {
+            return (true)
+        } else {
+            return (false)
+        }
+    }
+
+    /**
+    *Determine if there are obstacles on the left side.
+    *@param thresholdL ; eg: 512
+    */
+    //% blockId="IRLeft" block="IR lichtsterkte links groter dan %thresholdL"
+    //% thresholdL.min=0 thresholdL.max=1023
+    //% blockGap=10 weight=57
+    export function IRLeft(thresholdL: number = 512): boolean {
+        basic.pause(100)
+        ADL_L = pins.analogReadPin(AnalogPin.P1)
+        pins.digitalWritePin(DigitalPin.P12, 1)
+        control.waitMicros(250)
+        ADH_L = 0
+        if (pins.digitalReadPin(DigitalPin.P8) == 1) {
+            ADH_L = pins.analogReadPin(AnalogPin.P1)
+            pins.digitalWritePin(DigitalPin.P12, 0)
+        }
+        if ((ADH_L - ADL_L) > thresholdL) {
+            return (true)
+        } else {
+            return (false)
         }
     }
 
