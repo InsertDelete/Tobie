@@ -1,6 +1,6 @@
 # Tobie
 
-Gebaseerd op https://github.com/kaku111/pxt-tobbieII
+Copied from https://github.com/kaku111/pxt-tobbieII
 
 > Open deze pagina op [https://insertdelete.github.io/tobie/](https://insertdelete.github.io/tobie/)
 
